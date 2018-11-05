@@ -5,7 +5,7 @@ import Book from './Book'
 const Booksgrid = ({ books, onShelfChange }) => (
   <ol className="books-grid">
     {books.map(book => (
-      <li key={book.title}>
+      <li key={book.id}>
         <Book onShelfChange={onShelfChange} {...book} />
       </li>
     ))}
