@@ -16,10 +16,10 @@ class BooksApp extends React.Component {
         this.setState(() => ({
           books: books.map(({id, imageLinks, shelf, title, authors}) => ({
             id,
-            cover: imageLinks.thumbnail,
-            shelf,
+            cover: imageLinks ? imageLinks.thumbnail : '',
+            shelf: shelf || 'none',
             title,
-            authors,
+            authors: authors || [],
           }))
         }))
       })
@@ -30,7 +30,7 @@ class BooksApp extends React.Component {
     return (
       <div className="app">
         <Route exact path='/' render={() => <List books={books} />} />
-        <Route path='/search' component={Search} />
+        <Route path='/search' render={() => <Search books={books} />} />
       </div>
     )
   }
