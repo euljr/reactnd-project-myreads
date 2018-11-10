@@ -11,6 +11,7 @@ class BooksApp extends React.Component {
     searchIds: [],
   }
 
+  // Troca a estante de um livro
   onShelfChange = (book, shelf) => {
     const oldShelf = this.state.books[book.id] ? this.state.books[book.id].shelf : 'none';
     this.setState((prevState) => {
@@ -40,8 +41,15 @@ class BooksApp extends React.Component {
       });
   }
 
+  // Adiciona um livro ao estado do App
+  // Esse livro pode ter ou não uma estante dependendo da
+  // origem de onde ele é carregado (ex.: livros da busca também passam por aqui e
+  // não estão em nenhuma estante)
   addBookToState = (book) => {
     this.setState((prevState) => {
+      // Para caso o livro venha de alguma busca, verifica se ele está em alguma estante
+      // assim armazenando o mesmo com a estante correta. Poderíamos também pular esse passo
+      // para esse livro caso ele já estiver no state.
       let oldBook = prevState.books[book.id]
       const shelf = book.shelf
         ? book.shelf
@@ -61,8 +69,13 @@ class BooksApp extends React.Component {
     })
   }
 
+  // Atualiza o state com novos livros,
+  // caso a origem seja a API de busca, adiciona
+  // os IDs como resultados.
   updateBooks = (books, search = false) => {
     books.forEach(({id, imageLinks, shelf, title, authors}) => {
+      // Filtra somente as informações necessárias de cada livro para adiciona-lo na
+      // estante, também tratamos para casos onde não recebemos imagens de capa e autores
       this.addBookToState({
         id,
         cover: imageLinks ? imageLinks.thumbnail : '',
@@ -82,6 +95,7 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    // Carrega os livros e os livros e filtra os livros resultantes de uma busca
     const { books } = this.state
     const searchBooks = this.state.searchIds.reduce((prev, id) => ({
       ...prev,

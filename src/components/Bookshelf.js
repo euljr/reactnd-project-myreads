@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Booksgrid from './Booksgrid'
 
+// Componente funcional sem estado para renderizar o layout de uma estante
 const Bookshelf = ({ title, books, onShelfChange }) => (
   <div className="bookshelf">
     <h2 className="bookshelf-title">{title}</h2>

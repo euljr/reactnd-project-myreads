@@ -2,6 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 const Book = ({ book, onShelfChange }) => {
+  // Como os métodos de manipulação do state estão no componente App,
+  // recebemos esses métodos via Props, portanto esse é um componente funcional sem estado
+  // Aqui chamamos o método para atualizar a estante de um livros
   const { cover, shelf, title, authors } = book
   return (
     <div className="book">

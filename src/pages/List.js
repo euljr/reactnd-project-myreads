@@ -5,6 +5,7 @@ import Bookshelf from '../components/Bookshelf'
 
 class List extends Component {
   render() {
+    // Filtra os livros para adicionar em cada uma das três estantes
     const { books, onShelfChange } = this.props
     const booksArray = Object.keys(books).map(bookId => books[bookId]);
     const currentlyReading = booksArray.filter(book => book.shelf === 'currentlyReading')

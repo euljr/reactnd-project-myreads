@@ -23,6 +23,13 @@ class Search extends Component {
     }, 400)
   }
 
+  // Quando terminamos de digitar algo na busca, inicialmente
+  // chamamos o método de atualizar os livros do estado passando
+  // um vetor vazio, isso fará com que o estado de resultados de busca seja
+  // zerado.
+  //
+  // Caso a busca retorne algum resultado, executamos novamente o método para atualizar
+  // o estado com novos livros e renderizar os resultados da busca.
   search = () => {
     this.props.updateBooks([], true)
     if(this.state.searchQuery) {
