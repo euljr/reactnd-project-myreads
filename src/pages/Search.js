@@ -8,7 +8,6 @@ class Search extends Component {
 
   state = {
     searchQuery: '',
-    searchResults: [],
   }
 
   searchtimeout
@@ -25,32 +24,21 @@ class Search extends Component {
   }
 
   search = () => {
+    this.props.updateBooks([], true)
     if(this.state.searchQuery) {
       BooksAPI.search(this.state.searchQuery)
-        .then(searchResults => {
-          console.log(searchResults)
-          this.setState(() => ({
-            searchResults: searchResults.map(({id, imageLinks, title, authors}) => {
-              const { shelf } = this.props.books.find(book => book.id === id) || { shelf: 'none' }
-              return {
-                id,
-                cover: imageLinks ? imageLinks.thumbnail : '',
-                shelf: shelf,
-                title,
-                authors: authors || [],
-              }
-            })
-          }))
+        .then(books => {
+          if(Array.isArray(books)) {
+            this.props.updateBooks(books, true)
+          }
         })
-    } else {
-      this.setState(() => ({
-        searchResults: []
-      }))
     }
   }
 
   render() {
-    const { searchQuery, searchResults } = this.state
+    const { searchQuery } = this.state
+    const { onShelfChange, books } = this.props
+    const booksArray = Object.keys(books).map(bookId => books[bookId]);
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -64,7 +52,7 @@ class Search extends Component {
           </div>
         </div>
         <div className="search-books-results">
-          <Booksgrid onShelfChange={() => {}} books={searchResults} />
+          <Booksgrid onShelfChange={onShelfChange} books={booksArray} />
         </div>
       </div>
     )
@@ -72,7 +60,7 @@ class Search extends Component {
 }
 
 Search.propTypes = {
-  books: PropTypes.arrayOf(PropTypes.object).isRequired
+  books: PropTypes.object.isRequired
 }
 
 export default Search

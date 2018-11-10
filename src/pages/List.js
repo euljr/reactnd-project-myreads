@@ -5,10 +5,11 @@ import Bookshelf from '../components/Bookshelf'
 
 class List extends Component {
   render() {
-    const { books } = this.props
-    const currentlyReading = books.filter(book => book.shelf === 'currentlyReading')
-    const wantToRead = books.filter(book => book.shelf === 'wantToRead')
-    const read = books.filter(book => book.shelf === 'read')
+    const { books, onShelfChange } = this.props
+    const booksArray = Object.keys(books).map(bookId => books[bookId]);
+    const currentlyReading = booksArray.filter(book => book.shelf === 'currentlyReading')
+    const wantToRead = booksArray.filter(book => book.shelf === 'wantToRead')
+    const read = booksArray.filter(book => book.shelf === 'read')
     return (
       <div className="list-books">
         <div className="list-books-title">
@@ -17,11 +18,11 @@ class List extends Component {
         <div className="list-books-content">
           <div>
             {!!currentlyReading.length &&
-              <Bookshelf title={'Currently Reading'} onShelfChange={() => {}} books={currentlyReading} />}
+              <Bookshelf title={'Currently Reading'} onShelfChange={onShelfChange} books={currentlyReading} />}
             {!!wantToRead.length &&
-              <Bookshelf title={'Want to Read'} onShelfChange={() => {}} books={wantToRead} />}
+              <Bookshelf title={'Want to Read'} onShelfChange={onShelfChange} books={wantToRead} />}
             {!!read.length &&
-              <Bookshelf title={'Read'} onShelfChange={() => {}} books={read} />}
+              <Bookshelf title={'Read'} onShelfChange={onShelfChange} books={read} />}
           </div>
         </div>
         <div className="open-search">
@@ -33,7 +34,7 @@ class List extends Component {
 }
 
 List.propTypes = {
-  books: PropTypes.arrayOf(PropTypes.object).isRequired
+  books: PropTypes.object.isRequired
 }
 
 export default List
